@@ -1,0 +1,2 @@
+# BetSizingCalculator
+Size bets
