@@ -1,5 +1,6 @@
 # BetSizingCalculator
 Used to size bets from projected odds input.
+After providing projected odds input, CTRL+Z on a new line to continue
 
 ## Example Input Format  
 Los Angeles Clippers: 0.213, Detroit Pistons: 0.786 (+369, -367)  
