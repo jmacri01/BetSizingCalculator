@@ -27,7 +27,7 @@ public class Program
 
 		var betTaker = new BetTaker(bankroll);
 
-		foreach (var betMatchup in bettingMatchups.Where(x => x.AwayKellyFactor > 0 && x.HomeKellyFactor > 0).OrderByDescending(x => Math.Max(x.HomeOdds, x.AwayOdds)))
+		foreach (var betMatchup in bettingMatchups.Where(x => x.AwayKellyFactor > 0 || x.HomeKellyFactor > 0))
 		{
 			System.Console.WriteLine($"{betMatchup.AwayName} @ {betMatchup.HomeName}");
 
