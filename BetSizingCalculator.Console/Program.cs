@@ -25,23 +25,46 @@ public class Program
 		System.Console.WriteLine("Bankroll:");
 		var bankroll = decimal.Parse(System.Console.ReadLine());
 
-		var betTaker = new BetTaker(bankroll);
+		System.Console.WriteLine("Minimum Edge (Number between 0 and 1):");
+		var edgeFilter = decimal.Parse(System.Console.ReadLine());
 
-		foreach (var betMatchup in bettingMatchups.Where(x => x.AwayKellyFactor > 0 || x.HomeKellyFactor > 0))
+		var betTaker = new BetTaker(bankroll, edgeFilter);
+
+		foreach (var betMatchup in bettingMatchups)
 		{
 			System.Console.WriteLine($"{betMatchup.AwayName} @ {betMatchup.HomeName}");
 
-			System.Console.WriteLine($"{betMatchup.AwayName} Money Line:");
-			var awayMoneyLine = int.Parse(System.Console.ReadLine());
-			System.Console.WriteLine($"{betMatchup.HomeName} Money Line:");
-			var homeMoneyLine = int.Parse(System.Console.ReadLine());
+			if(betMatchup.AwayKellyFactor == 0)
+			{
+				System.Console.ForegroundColor = ConsoleColor.Yellow;
+				System.Console.WriteLine($"{betMatchup.AwayName} has 0 Kelly Factor.");
+				System.Console.ForegroundColor = ConsoleColor.White;
+				betMatchup.AwayMarketMoneyLine = 0;
+			}
+			else
+			{
+				System.Console.WriteLine($"{betMatchup.AwayName} Money Line:");
+				betMatchup.AwayMarketMoneyLine = int.Parse(System.Console.ReadLine());
+			}
 
-			betMatchup.AwayMarketMoneyLine = awayMoneyLine;
-			betMatchup.HomeMarketMoneyLine = homeMoneyLine;
+			if (betMatchup.HomeKellyFactor == 0)
+			{
+				System.Console.ForegroundColor = ConsoleColor.Yellow;
+				System.Console.WriteLine($"{betMatchup.HomeName} has 0 Kelly Factor.");
+				System.Console.ForegroundColor = ConsoleColor.White;
+				betMatchup.HomeMarketMoneyLine = 0;
+			}
+			else
+			{
+				System.Console.WriteLine($"{betMatchup.HomeName} Money Line:");
+				betMatchup.HomeMarketMoneyLine = int.Parse(System.Console.ReadLine());
+			}
 
 			var bets = betTaker.TryPlaceBet(betMatchup);
 			System.Console.WriteLine("");
+			System.Console.ForegroundColor = ConsoleColor.Green;
 			System.Console.WriteLine($"{betMatchup.AwayName} Bet: {bets.AwayBet:C}, {betMatchup.HomeName} Bet: {bets.HomeBet:C}");
+			System.Console.ForegroundColor = ConsoleColor.White;
 			System.Console.WriteLine("");
 			System.Console.WriteLine($"Bankroll: {betTaker.Bankroll:C}");
 			System.Console.WriteLine("");
